@@ -1,0 +1,6 @@
+[submodule "darknet_ros"]
+	path = darknet_ros
+	url = git@github.com:leggedrobotics/darknet_ros.git
+[submodule "ardupilot_gazebo_roscam"]
+	path = ardupilot_gazebo_roscam
+	url = git@github.com:r0ch1n/ardupilot_gazebo_roscam.git

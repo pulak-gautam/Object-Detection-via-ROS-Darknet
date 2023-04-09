@@ -1,0 +1,5 @@
+publisher_topic: /mavros/setpoint_position/local
+#waypoints
+x: 5
+y: 3
+z: 4

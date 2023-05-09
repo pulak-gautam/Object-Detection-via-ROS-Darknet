@@ -205,3 +205,10 @@ roslaunch darknet_ros darknet_ros.launch
 
 ## Example
 <img src="simulation.jpeg">
+
+## Troubleshooting
+### 1. udp0: sendto: Invalid argument mavros
+Please check this blog -> https://discuss.ardupilot.org/t/problem-calling-ros-service-for-arducopter-ros-sitl-tutorial/18992
+
+### 2. link 1 down, even after launching ardupilot_gazebo
+Check X-Terminal's Output (if two X-Terminals open). The only remedy I could find was to reinstall ardupilot SITL and ardupilot_gazebo

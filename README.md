@@ -208,7 +208,10 @@ roslaunch darknet_ros darknet_ros.launch
 
 ## Troubleshooting
 ### 1. udp0: sendto: Invalid argument mavros
-Please check this blog -> https://discuss.ardupilot.org/t/problem-calling-ros-service-for-arducopter-ros-sitl-tutorial/18992
+Please check this <a href="https://discuss.ardupilot.org/t/problem-calling-ros-service-for-arducopter-ros-sitl-tutorial/18992">blog</a> 
 
 ### 2. link 1 down, even after launching ardupilot_gazebo
 Check X-Terminal's Output (if two X-Terminals open). The only remedy I could find was to reinstall ardupilot SITL and ardupilot_gazebo
+
+### 3. Could not find a package configuration file provided by "mavros" with any   of the following names:      mavrosConfig.cmake     mavros-config.cmake
+Follow the installation mentioned in this <a href="https://github.com/mavlink/mavros/blob/master/mavros/README.md#installation">link</a>

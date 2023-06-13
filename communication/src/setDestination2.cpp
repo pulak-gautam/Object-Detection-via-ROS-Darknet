@@ -67,7 +67,7 @@ int main(int argc, char **argv)
   nh.getParam("square1/namespace",drone);
 
   // the setpoint publishing rate MUST be faster than 2Hz
-  ros::Rate rate(20.0);
+  ros::Rate rate(10.0);
   
   ros::Subscriber state_sub = nh.subscribe<mavros_msgs::State>((drone+"/mavros/state"), 10, state_cb);
   ros::Subscriber pose_sub = nh.subscribe<geometry_msgs::PoseStamped>((drone+"/mavros/local_position/pose"), 10, pose_cb);
@@ -107,7 +107,7 @@ int main(int argc, char **argv)
     // return -1;
   }
 
-  sleep(10);
+  sleep(2);
 
   ros::ServiceClient takeoff_client = nh.serviceClient<mavros_msgs::CommandTOL>(drone+"/mavros/cmd/takeoff");
   mavros_msgs::CommandTOL srv_takeoff;
@@ -144,6 +144,8 @@ int main(int argc, char **argv)
   wp.push_back(coordinate(10, 10, 2, -180));
   wp.push_back(coordinate(0, 10, 2, -270));
   wp.push_back(coordinate(0, 0, 2, 0));
+  wp.push_back(coordinate(0, 0, 2, 0));
+  
 
   for (int k = 0; k < wp.size(); k++)
   {

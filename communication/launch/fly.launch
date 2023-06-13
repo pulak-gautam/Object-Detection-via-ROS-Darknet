@@ -2,37 +2,37 @@
 	<group>
 		<node pkg="communication" type="setDestination" name="square1" output="screen" ns="/drone1">
 			<param name="namespace" value="/drone1"/>
-			<!-- <param name="use_sim_time"  value="true" /> -->
+			<param name="use_sim_time"  value="true" />
 		</node>
 	</group>
-<!-- 
+
 	<group>
 		
-		<node pkg="communication" type="setDestination2" name="square" output="screen" ns="/drone2">
+		<node pkg="communication" type="setDestination2" name="square1" output="screen" ns="/drone2">
 			<param name="namespace" value="/drone2"/>
 			<param name="use_sim_time"  value="true" />
 		</node>
 	</group>
 
 	<group>	
-		<node pkg="communication" type="setDestination3" name="square" output="screen" ns="/drone3">
+		<node pkg="communication" type="setDestination3" name="square1" output="screen" ns="/drone3">
 			<param name="namespace" value="/drone3"/>
 			<param name="use_sim_time"  value="true" />
 		</node>
 	</group>
 
 	<group>	
-		<node pkg="communication" type="setDestination4" name="square" output="screen" ns="/drone4">
+		<node pkg="communication" type="setDestination4" name="square1" output="screen" ns="/drone4">
 			<param name="namespace" value="/drone4"/>
 			<param name="use_sim_time"  value="true" />
 		</node>
 	</group>
 
 	<group>	
-		<node pkg="communication" type="setDestination5" name="square" output="screen" ns="/drone5">
+		<node pkg="communication" type="setDestination5" name="square1" output="screen" ns="/drone5">
 			<param name="namespace" value="/drone5"/>
 			<param name="use_sim_time"  value="true" />
 		</node>
-	</group> -->
+	</group>
 
 </launch>

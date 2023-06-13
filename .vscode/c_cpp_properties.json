@@ -1,28 +1,28 @@
 {
-  "configurations": [
-    {
-      "browse": {
-        "databaseFilename": "${default}",
-        "limitSymbolsToIncludedHeaders": false
-      },
-      "includePath": [
-        "/opt/ros/noetic/include/**",
-        "/home/atulya/Workspaces/rotors/devel/include/**",
-        "/home/atulya/Workspaces/robofest23/src/Object-Detection-via-ROS-Darknet/communication/include/**",
-        "/home/atulya/Workspaces/rotors/src/mav_comm/mav_msgs/include/**",
-        "/home/atulya/Workspaces/rotors/src/mav_comm/mav_planning_msgs/include/**",
-        "/home/atulya/Workspaces/rotors/src/rotors_simulator/rotors_control/include/**",
-        "/home/atulya/Workspaces/rotors/src/rotors_simulator/rotors_gazebo_plugins/include/**",
-        "/home/atulya/Workspaces/rotors/src/rotors_simulator/rotors_hil_interface/include/**",
-        "/home/atulya/Workspaces/rotors/src/rotors_simulator/rotors_joy_interface/include/**",
-        "/usr/include/**"
-      ],
-      "name": "ROS",
-      "intelliSenseMode": "gcc-x64",
-      "compilerPath": "/usr/bin/gcc",
-      "cStandard": "gnu11",
-      "cppStandard": "c++14"
-    }
-  ],
-  "version": 4
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "/opt/ros/noetic/**"
+            ],
+            "defines": [],
+            "compilerPath": "/usr/lib/ccache/gcc",
+            "cStandard": "c17",
+            "cppStandard": "gnu++14",
+            "intelliSenseMode": "linux-gcc-x64"
+        },
+        {
+            "name": "ROS",
+            "includePath": [
+                "${workspaceFolder}/**"
+            ],
+            "defines": [],
+            "compilerPath": "/usr/lib/ccache/gcc",
+            "cStandard": "c17",
+            "cppStandard": "gnu++14",
+            "intelliSenseMode": "linux-gcc-x64"
+        }
+    ],
+    "version": 4
 }

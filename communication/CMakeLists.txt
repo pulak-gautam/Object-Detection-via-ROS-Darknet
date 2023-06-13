@@ -137,6 +137,20 @@ include_directories(
 add_executable( setDestination src/setDestination.cpp )
 target_link_libraries( setDestination ${catkin_LIBRARIES} )
 
+add_executable( setDestination2 src/setDestination2.cpp )
+target_link_libraries( setDestination2 ${catkin_LIBRARIES} )
+
+add_executable( setDestination3 src/setDestination3.cpp )
+target_link_libraries( setDestination3 ${catkin_LIBRARIES} )
+
+add_executable( setDestination4 src/setDestination4.cpp )
+target_link_libraries( setDestination4 ${catkin_LIBRARIES} )
+
+add_executable( setDestination5 src/setDestination5.cpp )
+target_link_libraries( setDestination5 ${catkin_LIBRARIES} )
+
+
+
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
 ## target back to the shorter version for ease of user use

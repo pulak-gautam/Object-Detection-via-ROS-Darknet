@@ -2,15 +2,15 @@
 	<!-- vim: set ft=xml noet : -->
 	<!-- example launch script for ArduPilot based FCU's -->
 
-	<arg name="fcu_url" default="udp://127.0.0.1:14551@14555" />
+	<!-- <arg name="fcu_url" default="udp://127.0.0.1:14551@14555" />
 	<arg name="gcs_url" default="" />
 	<arg name="tgt_system" default="1" />
 	<arg name="tgt_component" default="1" />
 	<arg name="log_output" default="screen" />
 	<arg name="fcu_protocol" default="v2.0" />
-	<arg name="respawn_mavros" default="false" />
+	<arg name="respawn_mavros" default="false" /> -->
 
-	<include file="$(find mavros)/launch/node.launch">
+	<!-- <include file="$(find mavros)/launch/node.launch">
 		<arg name="pluginlists_yaml" value="$(find mavros)/launch/apm_pluginlists.yaml" />
 		<arg name="config_yaml" value="$(find mavros)/launch/apm_config.yaml" />
 
@@ -21,7 +21,71 @@
 		<arg name="log_output" value="$(arg log_output)" />
 		<arg name="fcu_protocol" value="$(arg fcu_protocol)" />
 		<arg name="respawn_mavros" value="$(arg respawn_mavros)" />
-	</include>
+	</include> -->
+
+	<node pkg="mavros" type="mavros_node" name="mavros" required="false" clear_params="true" output="screen" respawn="true" ns="/drone1">
+		<param name="fcu_url" value="udp://127.0.0.1:14561@14565" />
+		<param name="gcs_url" value="" />
+		<param name="target_system_id" value="1" />
+		<param name="target_component_id" value="1" />
+		<param name="fcu_protocol" value="v2.0" />
+
+		<!-- load blacklist, config -->
+		<rosparam command="load" file="$(find mavros)/launch/apm_pluginlists.yaml" />
+		<rosparam command="load" file="$(find mavros)/launch/apm_config.yaml" />
+	</node>
+
+	<node pkg="mavros" type="mavros_node" name="mavros" required="false" clear_params="true" output="screen" respawn="true" ns="/drone2">
+		<param name="fcu_url" value="udp://127.0.0.1:14571@14575" />
+		<param name="gcs_url" value="" />
+		<param name="target_system_id" value="2" />
+		<param name="target_component_id" value="2" />
+		<param name="fcu_protocol" value="v2.0" />
+
+		<!-- load blacklist, config -->
+		<rosparam command="load" file="$(find mavros)/launch/apm_pluginlists.yaml" />
+		<rosparam command="load" file="$(find mavros)/launch/apm_config.yaml" />
+	</node>
+	
+	<node pkg="mavros" type="mavros_node" name="mavros" required="false" clear_params="true" output="screen" respawn="true" ns="/drone3">
+		<param name="fcu_url" value="udp://127.0.0.1:14581@14585" />
+		<param name="gcs_url" value="" />
+		<param name="target_system_id" value="3" />
+		<param name="target_component_id" value="3" />
+		<param name="fcu_protocol" value="v2.0" />
+
+		<!-- load blacklist, config -->
+		<rosparam command="load" file="$(find mavros)/launch/apm_pluginlists.yaml" />
+		<rosparam command="load" file="$(find mavros)/launch/apm_config.yaml" />
+	</node>
+
+
+	<node pkg="mavros" type="mavros_node" name="mavros" required="false" clear_params="true" output="screen" respawn="true" ns="/drone4">
+		<param name="fcu_url" value="udp://127.0.0.1:14591@14595" />
+		<param name="gcs_url" value="" />
+		<param name="target_system_id" value="4" />
+		<param name="target_component_id" value="4" />
+		<param name="fcu_protocol" value="v2.0" />
+
+		<!-- load blacklist, config -->
+		<rosparam command="load" file="$(find mavros)/launch/apm_pluginlists.yaml" />
+		<rosparam command="load" file="$(find mavros)/launch/apm_config.yaml" />
+	</node>
+
+	<node pkg="mavros" type="mavros_node" name="mavros" required="false" clear_params="true" output="screen" respawn="true" ns="/drone5">
+		<param name="fcu_url" value="udp://127.0.0.1:14601@14605" />
+		<param name="gcs_url" value="" />
+		<param name="target_system_id" value="5" />
+		<param name="target_component_id" value="5" />
+		<param name="fcu_protocol" value="v2.0" />
+
+		<!-- load blacklist, config -->
+		<rosparam command="load" file="$(find mavros)/launch/apm_pluginlists.yaml" />
+		<rosparam command="load" file="$(find mavros)/launch/apm_config.yaml" />
+	</node>
+
+	
+
 
 	<!-- <node pkg="communication" type="move" name="move" output="screen">
         <rosparam file="$(find communication)/config/default.yaml" />

@@ -63,25 +63,25 @@ int main(int argc, char **argv)
   ros::init(argc, argv, "offb_node");
   ros::NodeHandle nh;
   std::string drone;
-
+  std::string hello="hello";
   nh.getParam("square1/namespace",drone);
 
   // the setpoint publishing rate MUST be faster than 2Hz
   ros::Rate rate(20.0);
   
-  ros::Subscriber state_sub = nh.subscribe<mavros_msgs::State>(("/drone1/mavros/state"), 10, state_cb);
-  ros::Subscriber pose_sub = nh.subscribe<geometry_msgs::PoseStamped>(("/drone1/mavros/local_position/pose"), 10, pose_cb);
-  ros::Publisher waypoint_pub = nh.advertise<geometry_msgs::PoseStamped>(("/drone1/mavros/setpoint_position/local"), 10);
+  ros::Subscriber state_sub = nh.subscribe<mavros_msgs::State>(drone+"/mavros/state", 10, state_cb);
+  ros::Subscriber pose_sub = nh.subscribe<geometry_msgs::PoseStamped>(drone+"/mavros/local_position/pose", 10, pose_cb);
+  ros::Publisher waypoint_pub = nh.advertise<geometry_msgs::PoseStamped>(drone+"/mavros/setpoint_position/local", 10);
   // wait for FCU connection
   while (ros::ok() && !current_state.connected)
   {
 
-    ROS_INFO("connecting...");
+    ROS_INFO("%s,connecting...",(drone+"/mavros/state").c_str());
     ros::spinOnce();
     rate.sleep();
   }
 
-  ros::ServiceClient set_mode_client = nh.serviceClient<mavros_msgs::SetMode>(drone+"/mavros/set_mode");
+  ros::ServiceClient set_mode_client = nh.serviceClient<mavros_msgs::SetMode>(drone+"mavros/set_mode");
 
   mavros_msgs::SetMode offb_set_mode;
   offb_set_mode.request.custom_mode = "GUIDED";
@@ -96,7 +96,7 @@ int main(int argc, char **argv)
   sleep(2);
 
   // arming
-  ros::ServiceClient arming_client_i = nh.serviceClient<mavros_msgs::CommandBool>(drone+"/mavros/cmd/arming");
+  ros::ServiceClient arming_client_i = nh.serviceClient<mavros_msgs::CommandBool>(drone+"mavros/cmd/arming");
   mavros_msgs::CommandBool srv_arm_i;
   srv_arm_i.request.value = true;
   if (arming_client_i.call(srv_arm_i) && srv_arm_i.response.success)

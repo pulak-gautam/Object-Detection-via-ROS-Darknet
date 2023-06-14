@@ -38,6 +38,11 @@ public:
     this->z = z;
     this->psi = psi;
   }
+
+  coordinate operator-(coordinate &c){
+    return coordinate(this->x - c.x,this->y - c.y,this->z,this->psi);
+  }
+
 };
 
 void state_cb(const mavros_msgs::State::ConstPtr &msg)
@@ -72,7 +77,10 @@ int main(int argc, char **argv)
   ros::Subscriber state_sub = nh.subscribe<mavros_msgs::State>((drone+"/mavros/state"), 10, state_cb);
   ros::Subscriber pose_sub = nh.subscribe<geometry_msgs::PoseStamped>((drone+"/mavros/local_position/pose"), 10, pose_cb);
   ros::Publisher waypoint_pub = nh.advertise<geometry_msgs::PoseStamped>((drone+"/mavros/setpoint_position/local"), 10);
+  // ros::Publisher deadlock = nh.advertise<
   // wait for FCU connection
+  
+  
   while (ros::ok() && !current_state.connected)
   {
 
@@ -138,12 +146,129 @@ int main(int argc, char **argv)
 
   // list of waypoints
   ROS_INFO("Mission Initiated");
-  
+
   std::vector<coordinate> wp;
+
+  coordinate pose1(0,0,2,0);
+  coordinate pose2(0,10,2,0);
+  coordinate pose3(0,-10,2,0);
+  coordinate pose4(-10,0,2,0);
+  coordinate pose5(10,0,2,0);
+
+
+
+if(drone=="/drone1"){
+  
   wp.push_back(coordinate(10, 0, 2, -90));
   wp.push_back(coordinate(10, 10, 2, -180));
   wp.push_back(coordinate(0, 10, 2, -270));
   wp.push_back(coordinate(0, 0, 2, 0));
+  
+  wp.push_back(coordinate(0, 0, 2, 0));
+
+  wp.push_back(coordinate(0, 10, 2, 0));
+
+  wp.push_back(coordinate(0, 0, 2, 0));
+
+  wp.push_back(coordinate(0, 0, 2, 0));
+
+  wp.push_back(coordinate(0, 0, 2, 0));
+
+  wp.push_back(coordinate(0, 10, 2, 0));
+
+  wp.push_back(coordinate(0, 0, 2, 0));
+
+
+}else if(drone=="/drone2"){
+
+  wp.push_back(coordinate(10, 0, 2, -90));
+  wp.push_back(coordinate(10, 10, 2, -180));
+  wp.push_back(coordinate(0, 10, 2, -270));
+  wp.push_back(coordinate(0, 0, 2, 0));
+  
+  wp.push_back(coordinate(-20, 0, 2, 0)-pose2);
+  
+  wp.push_back(coordinate(-10, -10, 2, 0)-pose2);
+
+  wp.push_back(coordinate(-20, 0, 2, 0)-pose2);
+
+  wp.push_back(coordinate(-10, -10, 2, 0)-pose2);
+
+  wp.push_back(coordinate(-20, 0, 2, 0)-pose2);
+
+  wp.push_back(coordinate(-9.51, 3.09, 2, 0)-pose2);
+
+  wp.push_back(coordinate(-20, 0, 2, 0)-pose2);
+
+
+}else if(drone=="/drone3"){
+
+  wp.push_back(coordinate(10, 0, 2, -90));
+  wp.push_back(coordinate(10, 10, 2, -180));
+  wp.push_back(coordinate(0, 10, 2, -270));
+  wp.push_back(coordinate(0, 0, 2, 0));
+  
+  wp.push_back(coordinate(20, 0, 2, 0)-pose3);
+
+  wp.push_back(coordinate(10, -10, 2, 0)-pose3);
+
+  wp.push_back(coordinate(20, 0, 2, 0)-pose3);
+
+  wp.push_back(coordinate(10, -10, 2, 0)-pose3);
+
+  wp.push_back(coordinate(20, 0, 2, 0)-pose3);
+
+  wp.push_back(coordinate(9.51, 3.09, 2, 0)-pose3);
+
+  wp.push_back(coordinate(20, 0, 2, 0)-pose3);
+
+
+}else if(drone=="/drone4"){
+
+  wp.push_back(coordinate(10, 0, 2, -90));
+  wp.push_back(coordinate(10, 10, 2, -180));
+  wp.push_back(coordinate(0, 10, 2, -270));
+  wp.push_back(coordinate(0, 0, 2, 0));
+  
+  wp.push_back(coordinate(-10, 0, 2, 0)-pose4);
+
+  wp.push_back(coordinate(-5, 0, 2, 0)-pose4);
+
+  wp.push_back(coordinate(-10, 0, 2, 0)-pose4);
+
+  wp.push_back(coordinate(-10, 10, 2, 0)-pose4);
+
+  wp.push_back(coordinate(-10, 0, 2, 0)-pose4);
+
+  wp.push_back(coordinate(-5.88, -8.09, 2, 0)-pose4);
+
+  wp.push_back(coordinate(-10, 0, 2, 0)-pose4);
+
+
+}else if(drone=="/drone5"){
+
+  wp.push_back(coordinate(10, 0, 2, -90));
+  wp.push_back(coordinate(10, 10, 2, -180));
+  wp.push_back(coordinate(0, 10, 2, -270));
+  wp.push_back(coordinate(0, 0, 2, 0));
+  
+  wp.push_back(coordinate(10, 0, 2, 0)-pose5);
+
+  wp.push_back(coordinate(5, 0, 2, 0)-pose5);
+
+  wp.push_back(coordinate(10, 0, 2, 0)-pose5);
+
+  wp.push_back(coordinate(10, 10, 2, 0)-pose5);
+
+  wp.push_back(coordinate(10, 0, 2, 0)-pose5);
+
+  wp.push_back(coordinate(5.88, -8.09, 2, 0)-pose5);
+
+  wp.push_back(coordinate(10, 0, 2, 0)-pose5);
+
+
+}
+
 
   for (int k = 0; k < wp.size(); k++)
   {
@@ -184,7 +309,7 @@ int main(int argc, char **argv)
     }
     ROS_WARN("Setpoint (%lf, %lf, %lf) Reached!", msg.pose.position.x, msg.pose.position.y, msg.pose.position.z);
 
-    sleep(5);
+    sleep(10);
   }
 
   ros::ServiceClient land_client = nh.serviceClient<mavros_msgs::CommandTOL>(drone+"/mavros/cmd/land");

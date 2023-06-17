@@ -4,6 +4,8 @@
 #include <geometry_msgs/PoseStamped.h>
 #include <geometry_msgs/Point.h>
 #include <geometry_msgs/Quaternion.h>
+#include <std_msgs/Bool.h>
+#include <std_msgs/Int32.h>
 #include <mavros_msgs/CommandBool.h>
 #include <mavros_msgs/SetMode.h>
 #include <mavros_msgs/State.h>
@@ -18,6 +20,23 @@
 
 mavros_msgs::State current_state;
 geometry_msgs::PoseStamped current_pose;
+
+std_msgs::Bool drone1;
+std_msgs::Bool drone2;
+std_msgs::Bool drone3;
+std_msgs::Bool drone4;
+std_msgs::Bool drone5;
+
+int32_t drone1_cmd;
+int32_t drone2_cmd;
+int32_t drone3_cmd;
+int32_t drone4_cmd;
+int32_t drone5_cmd;
+
+// std::vector<int32_t> v;
+int32_t v[5];
+
+
 
 const float POSITION_TOLERANCE = 0.1;
 const float ON_TARGET_THRESHOLD = 20;
@@ -45,6 +64,32 @@ public:
 
 };
 
+// int32_t min_vecs(std::vector<int32_t> vec){
+
+//   int32_t value=-1;
+//   for(int i=0;i<vec.size();i++){
+//     if()
+//   }
+
+
+
+// }
+
+int32_t min_woah(int* v){
+
+int32_t min=10;
+for(int i=0;i<5;i++){
+
+  if(v[i]<min){
+    min=v[i];
+  }
+
+}
+return min;
+
+}
+
+
 void state_cb(const mavros_msgs::State::ConstPtr &msg)
 {
   ROS_INFO("CONNECTED!");
@@ -63,6 +108,86 @@ float get_distance(double x1, double y1, double z1, double x2, double y2, double
   return sqrt(pow(x1 - x2, 2) + pow(y1 - y2, 2) + pow(z1 - z2, 2));
 }
 
+void drone1_cb(const std_msgs::Bool::ConstPtr &msg)
+{
+  ROS_INFO("Drone1 has reached = %d",msg->data);
+  drone1.data=msg->data;
+}
+
+
+void drone2_cb(const std_msgs::Bool::ConstPtr &msg)
+{
+  ROS_INFO("drone2 has reached = %d",msg->data);
+  drone2.data=msg->data;
+}
+
+
+
+void drone3_cb(const std_msgs::Bool::ConstPtr &msg)
+{
+  ROS_INFO("Drone3 has reached = %d",msg->data);
+  drone3.data=msg->data;
+}
+
+
+
+void drone4_cb(const std_msgs::Bool::ConstPtr &msg)
+{
+  ROS_INFO("Drone4 has reached = %d",msg->data);
+  drone4.data=msg->data;
+}
+
+
+
+void drone5_cb(const std_msgs::Bool::ConstPtr &msg)
+{
+  ROS_INFO("Drone5 has reached = %d",msg->data);
+  drone5.data=msg->data;
+}
+
+
+
+
+
+void drone1_cmd_cb(const std_msgs::Int32::ConstPtr &msg)
+{
+  // ROS_INFO("Drone1 has reached = %d",msg->data);
+  drone1_cmd=msg->data;
+  v[0]=msg->data;
+}
+
+void drone2_cmd_cb(const std_msgs::Int32::ConstPtr &msg)
+{
+  // ROS_INFO("Drone1 has reached = %d",msg->data);
+  drone2_cmd=msg->data;
+  v[1]=msg->data;
+
+}
+
+void drone3_cmd_cb(const std_msgs::Int32::ConstPtr &msg)
+{
+  // ROS_INFO("Drone1 has reached = %d",msg->data);
+  drone3_cmd=msg->data;
+  v[2]=msg->data;
+
+}
+
+void drone4_cmd_cb(const std_msgs::Int32::ConstPtr &msg)
+{
+  // ROS_INFO("Drone1 has reached = %d",msg->data);
+  drone4_cmd=msg->data;
+  v[3]=msg->data;
+}
+
+void drone5_cmd_cb(const std_msgs::Int32::ConstPtr &msg)
+{
+  // ROS_INFO("Drone1 has reached = %d",msg->data);
+  drone5_cmd=msg->data;
+  v[4]=msg->data;
+}
+
+
+
 int main(int argc, char **argv)
 {
   ros::init(argc, argv, "offb_node");
@@ -76,7 +201,25 @@ int main(int argc, char **argv)
   
   ros::Subscriber state_sub = nh.subscribe<mavros_msgs::State>((drone+"/mavros/state"), 10, state_cb);
   ros::Subscriber pose_sub = nh.subscribe<geometry_msgs::PoseStamped>((drone+"/mavros/local_position/pose"), 10, pose_cb);
+  
+  ros::Subscriber dead_drone1 = nh.subscribe<std_msgs::Bool>("/drone1/mavros/reached",10,drone1_cb);
+  ros::Subscriber dead_drone2 = nh.subscribe<std_msgs::Bool>("/drone2/mavros/reached",10,drone2_cb);
+  ros::Subscriber dead_drone3 = nh.subscribe<std_msgs::Bool>("/drone3/mavros/reached",10,drone3_cb);
+  ros::Subscriber dead_drone4 = nh.subscribe<std_msgs::Bool>("/drone4/mavros/reached",10,drone4_cb);
+  ros::Subscriber dead_drone5 = nh.subscribe<std_msgs::Bool>("/drone5/mavros/reached",10,drone5_cb);
+
+  ros::Subscriber cmd_drone1 = nh.subscribe<std_msgs::Int32>("/drone1/mavros/cmdno",10,drone1_cmd_cb);
+  ros::Subscriber cmd_drone2 = nh.subscribe<std_msgs::Int32>("/drone2/mavros/cmdno",10,drone2_cmd_cb);
+  ros::Subscriber cmd_drone3 = nh.subscribe<std_msgs::Int32>("/drone3/mavros/cmdno",10,drone3_cmd_cb);
+  ros::Subscriber cmd_drone4 = nh.subscribe<std_msgs::Int32>("/drone4/mavros/cmdno",10,drone4_cmd_cb);
+  ros::Subscriber cmd_drone5 = nh.subscribe<std_msgs::Int32>("/drone5/mavros/cmdno",10,drone5_cmd_cb);
+
+
+  
   ros::Publisher waypoint_pub = nh.advertise<geometry_msgs::PoseStamped>((drone+"/mavros/setpoint_position/local"), 10);
+  ros::Publisher deadlock = nh.advertise<std_msgs::Bool>(drone+"/mavros/reached",10);
+  ros::Publisher command_no = nh.advertise<std_msgs::Int32>(drone+"/mavros/cmdno",10);
+
   // ros::Publisher deadlock = nh.advertise<
   // wait for FCU connection
   
@@ -272,6 +415,23 @@ if(drone=="/drone1"){
 
   for (int k = 0; k < wp.size(); k++)
   {
+
+
+    std_msgs::Int32 cmd_no;
+    cmd_no.data=k+1;
+    command_no.publish(cmd_no);
+    int32_t val = min_woah(v);
+
+    while(ros::ok() && cmd_no.data != val ){      
+      val = min_woah(v);
+      command_no.publish(cmd_no);
+      ROS_WARN("%s,%d,%d",drone.c_str(),cmd_no.data,val);
+      ros::spinOnce();
+    }
+
+
+    
+
     geometry_msgs::PoseStamped msg;
     geometry_msgs::Point point;
     double yaw = wp[k].psi * (PI / 100);
@@ -301,15 +461,33 @@ if(drone=="/drone1"){
 
     double distance = (get_distance(current_pose.pose.position.x, current_pose.pose.position.y, current_pose.pose.position.z, msg.pose.position.x, msg.pose.position.y, msg.pose.position.z));
 
+    std_msgs::Bool dead_bool;
+    
     while (ros::ok() && distance > POSITION_TOLERANCE)
     {
+      dead_bool.data = false;
+      deadlock.publish(dead_bool);
       ROS_INFO("x:%lf y:%lf z:%lf distance:%lf", current_pose.pose.position.x, current_pose.pose.position.y, current_pose.pose.position.z, distance);
       distance = (get_distance(current_pose.pose.position.x, current_pose.pose.position.y, current_pose.pose.position.z, msg.pose.position.x, msg.pose.position.y, msg.pose.position.z));
       ros::spinOnce();
     }
-    ROS_WARN("Setpoint (%lf, %lf, %lf) Reached!", msg.pose.position.x, msg.pose.position.y, msg.pose.position.z);
+    
+    ROS_WARN(" Setpoint (%lf, %lf, %lf) Reached!", msg.pose.position.x, msg.pose.position.y, msg.pose.position.z);
 
-    sleep(10);
+    
+    val=min_woah(v);
+
+    while(ros::ok() && !(drone1.data&drone2.data&drone3.data&drone4.data&drone5.data)&& cmd_no.data>val ){      
+      val = min_woah(v);
+      ROS_WARN("%d bottom",val);
+      dead_bool.data = true;
+      deadlock.publish(dead_bool);
+      ros::spinOnce();
+    }
+
+
+
+    sleep(5);
   }
 
   ros::ServiceClient land_client = nh.serviceClient<mavros_msgs::CommandTOL>(drone+"/mavros/cmd/land");

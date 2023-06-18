@@ -77,7 +77,7 @@ public:
 
 int32_t min_woah(int* v){
 
-int32_t min=10;
+int32_t min=INT32_MAX;
 for(int i=0;i<5;i++){
 
   if(v[i]<min){
